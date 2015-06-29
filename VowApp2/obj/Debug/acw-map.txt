@@ -1,0 +1,20 @@
+VowApp2.MainActivity, VowApp2;com.vow.vow_app_2.MainActivity
+VowApp2.MainActivity, VowApp2, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null;com.vow.vow_app_2.MainActivity
+VowApp2.MainActivity;com.vow.vow_app_2.MainActivity
+vowapp2.MainActivity;com.vow.vow_app_2.MainActivity
+VowApp2.TestActivity, VowApp2;com.vow.vow_app_2.TestActivity
+VowApp2.TestActivity, VowApp2, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null;com.vow.vow_app_2.TestActivity
+VowApp2.TestActivity;com.vow.vow_app_2.TestActivity
+vowapp2.TestActivity;com.vow.vow_app_2.TestActivity
+VowApp2.AccountSettings, VowApp2;com.vow.vow_app_2.AccountSettings
+VowApp2.AccountSettings, VowApp2, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null;com.vow.vow_app_2.AccountSettings
+VowApp2.AccountSettings;com.vow.vow_app_2.AccountSettings
+vowapp2.AccountSettings;com.vow.vow_app_2.AccountSettings
+VowApp2.LoginActivity, VowApp2;com.vow.vow_app_2.LoginActivity
+VowApp2.LoginActivity, VowApp2, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null;com.vow.vow_app_2.LoginActivity
+VowApp2.LoginActivity;com.vow.vow_app_2.LoginActivity
+vowapp2.LoginActivity;com.vow.vow_app_2.LoginActivity
+VowApp2.CreateAccountActivity, VowApp2;com.vow.vow_app_2.CreateAccountActivity
+VowApp2.CreateAccountActivity, VowApp2, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null;com.vow.vow_app_2.CreateAccountActivity
+VowApp2.CreateAccountActivity;com.vow.vow_app_2.CreateAccountActivity
+vowapp2.CreateAccountActivity;com.vow.vow_app_2.CreateAccountActivity

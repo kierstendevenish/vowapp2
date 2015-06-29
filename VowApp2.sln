@@ -1,0 +1,23 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 2012
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "VowApp2", "VowApp2\VowApp2.csproj", "{65EEC2DB-1F5D-4D55-A56F-C5F65F0B9589}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "VowApp2.UITests", "VowApp2.UITests\VowApp2.UITests.csproj", "{1A3BB494-5034-47B5-B796-3177A0321FBE}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{1A3BB494-5034-47B5-B796-3177A0321FBE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1A3BB494-5034-47B5-B796-3177A0321FBE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1A3BB494-5034-47B5-B796-3177A0321FBE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1A3BB494-5034-47B5-B796-3177A0321FBE}.Release|Any CPU.Build.0 = Release|Any CPU
+		{65EEC2DB-1F5D-4D55-A56F-C5F65F0B9589}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{65EEC2DB-1F5D-4D55-A56F-C5F65F0B9589}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{65EEC2DB-1F5D-4D55-A56F-C5F65F0B9589}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{65EEC2DB-1F5D-4D55-A56F-C5F65F0B9589}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+EndGlobal
