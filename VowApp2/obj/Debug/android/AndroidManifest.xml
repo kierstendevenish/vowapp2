@@ -12,6 +12,7 @@
       </intent-filter>
     </activity>
     <activity android:label="CreateAccountActivity" android:name="com.vow.vow_app_2.CreateAccountActivity" />
+    <service android:name="md563e62913203f2265f857b352b9f2fc19.VowLocationService" />
     <provider android:name="mono.MonoRuntimeProvider" android:exported="false" android:initOrder="2147483647" android:authorities="com.vow.vow_app_2.mono.MonoRuntimeProvider.__mono_init__" />
     <receiver android:name="mono.android.Seppuku">
       <intent-filter>
@@ -21,6 +22,7 @@
     </receiver>
   </application>
   <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+  <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
   <uses-permission android:name="android.permission.INTERNET" />
   <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
 </manifest>

@@ -1,14 +1,15 @@
 ﻿<Properties StartupItem="VowApp2\VowApp2.csproj">
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" PreferredExecutionTarget="Android.DeviceFromGuide" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="VowApp2\CreateAccountActivity.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="VowApp2\VowLocationService.cs">
     <Files>
       <File FileName="VowApp2\TestActivity.cs" Line="1" Column="1" />
       <File FileName="VowApp2\AccountSettings.cs" Line="1" Column="1" />
       <File FileName="VowApp2\LoginActivity.cs" Line="1" Column="1" />
-      <File FileName="VowApp2\CreateAccountActivity.cs" Line="43" Column="1" />
+      <File FileName="VowApp2\CreateAccountActivity.cs" Line="48" Column="6" />
       <File FileName="VowApp2\MainActivity.cs" Line="1" Column="1" />
-      <File FileName="VowApp2\Properties\AndroidManifest.xml" Line="1" Column="1" />
+      <File FileName="VowApp2\Properties\AndroidManifest.xml" Line="7" Column="12" />
       <File FileName="VowApp2\obj\Debug\android\src\com\vow\vow_app_2\TrialSplashScreen.java" Line="1" Column="1" />
+      <File FileName="VowApp2\VowLocationService.cs" Line="36" Column="4" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>

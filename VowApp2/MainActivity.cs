@@ -6,6 +6,9 @@ using Android.Runtime;
 using Android.Views;
 using Android.Widget;
 using Android.OS;
+using Android.Locations;
+
+using VowApp2.Services;
 
 namespace VowApp2
 {
@@ -27,7 +30,7 @@ namespace VowApp2
 			Button accountButton = FindViewById<Button>(Resource.Id.AccountButton);
 			Button testButton = FindViewById<Button>(Resource.Id.TestButton);
 
-			//retreive 
+			//retrieve 
 			var prefs = Application.Context.GetSharedPreferences("VowApp", FileCreationMode.Private);              
 			this.isMonitoringOn = prefs.Contains("monitoringState") ? prefs.GetBoolean("monitoringState", true) : true;
 			toggleButton.Checked = this.isMonitoringOn;
@@ -37,12 +40,12 @@ namespace VowApp2
 				if (toggleButton.Checked)
 				{
 					this.isMonitoringOn = true;
-					Toast.MakeText(this, "Location monitoring has been turned on", ToastLength.Short).Show ();
+					StartLocationMonitoringService();
 				}
 				else
 				{
 					this.isMonitoringOn = false;
-					Toast.MakeText(this, "Location monitoring has been turned off", ToastLength.Short).Show ();
+					StopLocationMonitoringService();
 				}
 			};
 
@@ -57,6 +60,65 @@ namespace VowApp2
 				var intent = new Intent(this, typeof(TestActivity));
 				StartActivity(intent);
 			};
+
+			if (this.isMonitoringOn) {
+				StartLocationMonitoringService ();
+			}
+		}
+
+		private void StartLocationMonitoringService()
+		{
+			App.Current.LocationServiceConnected += (object sender, VowServiceConnectedEventArgs e) => {
+				Toast.MakeText (this, "ServiceConnected Event Raised", ToastLength.Short).Show ();
+
+				App.Current.LocationService.StartLocationUpdates ();
+
+				App.Current.LocationService.LocationChanged += HandleLocationChanged;
+				App.Current.LocationService.ProviderDisabled += HandleProviderDisabled;
+				App.Current.LocationService.ProviderEnabled += HandleProviderEnabled;
+				App.Current.LocationService.StatusChanged += HandleStatusChanged;
+			};
+
+			Toast.MakeText(this, "Location monitoring has been turned on", ToastLength.Short).Show ();
+		}
+
+		private void StopLocationMonitoringService()
+		{
+			App.Current.LocationService.OnDestroy();
+			Toast.MakeText(this, "Location monitoring has been turned off", ToastLength.Short).Show ();
+		}
+
+		public void HandleLocationChanged(object sender, LocationChangedEventArgs e)
+		{
+			Android.Locations.Location location = e.Location;
+			Toast.MakeText(this, "Location updated to " + location.Latitude + ", " + location.Longitude, ToastLength.Short).Show ();
+			//Log.Debug (logTag, "Foreground updating");
+
+			// these events are on a background thread, need to update on the UI thread
+			/*RunOnUiThread (() => {
+				latText.Text = String.Format ("Latitude: {0}", location.Latitude);
+				longText.Text = String.Format ("Longitude: {0}", location.Longitude);
+				altText.Text = String.Format ("Altitude: {0}", location.Altitude);
+				speedText.Text = String.Format ("Speed: {0}", location.Speed);
+				accText.Text = String.Format ("Accuracy: {0}", location.Accuracy);
+				bearText.Text = String.Format ("Bearing: {0}", location.Bearing);
+			});*/
+
+		}
+
+		public void HandleProviderDisabled(object sender, ProviderDisabledEventArgs e)
+		{
+			//Log.Debug (logTag, "Location provider disabled event raised");
+		}
+
+		public void HandleProviderEnabled(object sender, ProviderEnabledEventArgs e)
+		{
+			//Log.Debug (logTag, "Location provider enabled event raised");
+		}
+
+		public void HandleStatusChanged(object sender, StatusChangedEventArgs e)
+		{
+			//Log.Debug (logTag, "Location status changed, event raised");
 		}
 
 		protected override void OnRestoreInstanceState (Bundle bundle)
