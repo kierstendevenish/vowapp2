@@ -17,6 +17,12 @@ namespace VowApp2
 	{
 		bool isMonitoringOn;
 		ToggleButton toggleButton;
+		bool insideRadius;
+
+		string Provider;
+
+		double testLongitudeValue;
+		double testLatitudeValue;
 
 		protected override void OnCreate (Bundle bundle)
 		{
@@ -24,6 +30,8 @@ namespace VowApp2
 
 			// Set our view from the "main" layout resource
 			SetContentView (Resource.Layout.Main);
+
+			insideRadius = false;
 
 			// Get our UI controls from the loaded layout:
 			toggleButton = FindViewById<ToggleButton>(Resource.Id.ToggleButton);
@@ -41,6 +49,7 @@ namespace VowApp2
 				{
 					this.isMonitoringOn = true;
 					StartLocationMonitoringService();
+					Toast.MakeText(this, "Location monitoring has been turned on", ToastLength.Short).Show ();
 				}
 				else
 				{
@@ -71,15 +80,32 @@ namespace VowApp2
 			App.Current.LocationServiceConnected += (object sender, VowServiceConnectedEventArgs e) => {
 				Toast.MakeText (this, "ServiceConnected Event Raised", ToastLength.Short).Show ();
 
-				App.Current.LocationService.StartLocationUpdates ();
+				Provider = App.Current.LocationService.StartLocationUpdates ();
 
 				App.Current.LocationService.LocationChanged += HandleLocationChanged;
 				App.Current.LocationService.ProviderDisabled += HandleProviderDisabled;
 				App.Current.LocationService.ProviderEnabled += HandleProviderEnabled;
 				App.Current.LocationService.StatusChanged += HandleStatusChanged;
 			};
+		}
 
-			Toast.MakeText(this, "Location monitoring has been turned on", ToastLength.Short).Show ();
+		protected void SendNotification()
+		{
+			// Instantiate the builder and set notification elements:
+			Notification.Builder builder = new Notification.Builder (this)
+				.SetContentTitle ("VOW Notification")
+				.SetContentText ("This is a simulated VOW notification.")
+				.SetSmallIcon (Resource.Drawable.Icon);
+
+			// Build the notification:
+			Notification notification = builder.Build ();
+
+			// Get the notification manager:
+			NotificationManager notificationManager = (NotificationManager)GetSystemService (NotificationService);
+
+			// Publish the notification:
+			const int notificationId = 0;
+			notificationManager.Notify (notificationId, notification);
 		}
 
 		private void StopLocationMonitoringService()
@@ -92,28 +118,67 @@ namespace VowApp2
 		{
 			Android.Locations.Location location = e.Location;
 			Toast.MakeText(this, "Location updated to " + location.Latitude + ", " + location.Longitude, ToastLength.Short).Show ();
-			//Log.Debug (logTag, "Foreground updating");
 
-			// these events are on a background thread, need to update on the UI thread
-			/*RunOnUiThread (() => {
-				latText.Text = String.Format ("Latitude: {0}", location.Latitude);
-				longText.Text = String.Format ("Longitude: {0}", location.Longitude);
-				altText.Text = String.Format ("Altitude: {0}", location.Altitude);
-				speedText.Text = String.Format ("Speed: {0}", location.Speed);
-				accText.Text = String.Format ("Accuracy: {0}", location.Accuracy);
-				bearText.Text = String.Format ("Bearing: {0}", location.Bearing);
-			});*/
+			//check the proximity to the offender location
+			if (testLongitudeValue != 0.0 && testLatitudeValue != 0.0) 
+			{
+				Location offenderLocation = new Location(Provider);
+				offenderLocation.Longitude = testLongitudeValue;
+				offenderLocation.Latitude = testLatitudeValue;
+				float meters = location.DistanceTo(offenderLocation);
 
+				if (!insideRadius && (meters < 100)) {
+					insideRadius = true;
+					SendNotification ();
+				} 
+				else if (insideRadius && (meters > 100))
+				{
+					insideRadius = false;
+				}
+				//Toast.MakeText(this, "Distance = " + meters.ToString() + " meters", ToastLength.Short).Show ();
+			}
 		}
 
 		public void HandleProviderDisabled(object sender, ProviderDisabledEventArgs e)
 		{
-			//Log.Debug (logTag, "Location provider disabled event raised");
+			App.Current.LocationService.OnDestroy();
+
+			// Instantiate the builder and set notification elements:
+			Notification.Builder builder = new Notification.Builder (this)
+				.SetContentTitle ("VOW Notification")
+				.SetContentText ("Monitoring has been disabled because your location cannot be determined")
+				.SetSmallIcon (Resource.Drawable.Icon);
+
+			// Build the notification:
+			Notification notification = builder.Build ();
+
+			// Get the notification manager:
+			NotificationManager notificationManager = (NotificationManager)GetSystemService (NotificationService);
+
+			// Publish the notification:
+			const int notificationId = 0;
+			notificationManager.Notify (notificationId, notification);
 		}
 
 		public void HandleProviderEnabled(object sender, ProviderEnabledEventArgs e)
 		{
-			//Log.Debug (logTag, "Location provider enabled event raised");
+			StartLocationMonitoringService();
+
+			// Instantiate the builder and set notification elements:
+			Notification.Builder builder = new Notification.Builder (this)
+				.SetContentTitle ("VOW Notification")
+				.SetContentText ("Monitoring has been enabled")
+				.SetSmallIcon (Resource.Drawable.Icon);
+
+			// Build the notification:
+			Notification notification = builder.Build ();
+
+			// Get the notification manager:
+			NotificationManager notificationManager = (NotificationManager)GetSystemService (NotificationService);
+
+			// Publish the notification:
+			const int notificationId = 0;
+			notificationManager.Notify (notificationId, notification);
 		}
 
 		public void HandleStatusChanged(object sender, StatusChangedEventArgs e)
@@ -126,6 +191,9 @@ namespace VowApp2
 			base.OnRestoreInstanceState(bundle);
 			this.isMonitoringOn = (bundle != null) ? bundle.GetBoolean ("monitoringState", true) : true;
 			toggleButton.Checked = this.isMonitoringOn;
+
+			this.testLongitudeValue = (bundle != null) ? bundle.GetDouble("offenderLongitude", 0.0) : 0.0;
+			this.testLatitudeValue = (bundle != null) ? bundle.GetDouble("offenderLatitude", 0.0) : 0.0;
 		}
 
 		protected override void OnSaveInstanceState (Bundle outState)

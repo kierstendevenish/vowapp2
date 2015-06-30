@@ -31,12 +31,13 @@ namespace VowApp2.Services
 			return StartCommandResult.Sticky;
 		}
 
-		public void StartLocationUpdates () {       
+		public string StartLocationUpdates () {       
 			var locationCriteria = new Criteria();                    
 			locationCriteria.Accuracy = Accuracy.NoRequirement;        
 			locationCriteria.PowerRequirement = Power.NoRequirement;                    
-			var locationProvider = locMgr.GetBestProvider(locationCriteria, true);
+			string locationProvider = locMgr.GetBestProvider(locationCriteria, true);
 			locMgr.RequestLocationUpdates(locationProvider, 1000, 0, this);
+			return locationProvider;
 		}
 
 		public void OnLocationChanged (Android.Locations.Location location)
